@@ -1,10 +1,33 @@
+
+<?php include 'php/db_connect.php';?>
+
+<?php
+
+
+if(isset($_POST['btndelete'])){
+
+
+    $id =   $_POST['id'];
+
+    $sql = "DELETE FROM course WHERE id=$id";
+
+    if (mysqli_query($conn, $sql)) {
+        echo "Record deleted successfully";
+        } else {
+        echo "Error deleting record: " . mysqli_error($conn);
+        }
+}
+
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Program</title>
+    <title>CourseLsit</title>
     <!--Bootstrap CSS-->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
@@ -22,7 +45,7 @@
 
     <div id="mySidebar" class="sidebar">
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-        <a href=""><i class="fa fa-fw fa-home"></i> Home</a>
+        <a href="homepage.php"><i class="fa fa-fw fa-home"></i> Home</a>
         <a href=""><i class="fa fa-fw fa-envelope"></i> Messages</a>
         <a href=""><i class="fa fa-fw fa-bell"></i> Notifications</a>
         <a href=""><i class="fa fa-fw fa-cogs"></i> Settings</a>
@@ -49,7 +72,7 @@
         <!-- Links -->
         <ul class="navbar-nav" style="margin-left:15%;">
             <li class="nav-item">
-                <a class="nav-link" href=><i class="fa fa-fw fa-home"></i> Home</a>
+                <a class="nav-link" href="homepage.php"><i class="fa fa-fw fa-home"></i> Home</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href=><i class="fa fa-fw fa-user-circle"></i> Logout</a>
@@ -59,8 +82,9 @@
                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-fw fa-cogs"></i>
                     Settings</a>
                 <div class="dropdown-menu" aria-labelledby="dropdown01">
-                    <a class="dropdown-item" href="">Edit Profile</a>
-                    <a class="dropdown-item" href="">About</a>
+                    <a class="dropdown-item" href="userprofile.php">Edit Profile</a>
+                    <a class="dropdown-item" href="adminDashboard.php">Admin</a>
+                    <a class="dropdown-item" href="aboutpage.php">About</a>
                     <a class="dropdown-item" href=""> Contact Us</a>
                 </div>
             </li>
@@ -72,7 +96,43 @@
     <div class="container p-3 ">
 
         <div class = "row">
+
+        <?php
+         $uni_id=$_GET['uni_id'];
+         $sql = "SELECT id, title, name, short_description FROM course Where university = '$uni_id'";
+         $result = mysqli_query($conn, $sql);
+         while($row = mysqli_fetch_array($result) ){
+
+
+            echo  '            
             <div class = "col-sm-12 col-md-6 col-lg-4">             
+            <div class="card space" onmouseover="hover(this); show()" onmouseout= "endHover(this); hide()">
+             <div class="card-header"> <h2 class="text-center">'.$row["title"].'</h2></div>
+             <div class="card-body"><h5>'.$row["name"].'</h5>
+                 <p>'.$row["short_description"].'.</p>               
+             </div> 
+             <div class="card-footer">
+                
+                
+            <form method="post"   enctype="multipart/form-data">
+                <input type="hidden" name = "id"  value ='.$row["id"].' >
+                <button type="submit" name="btndelete" >Delete</button>
+            </form>
+                 </div>
+                
+             </div>
+           </div>
+        
+            
+            ';
+          }
+         
+       
+        
+        ?>
+
+ 
+            <!-- <div class = "col-sm-12 col-md-6 col-lg-4">             
                <div class="card space" onmouseover="hover(this); show()" onmouseout= "endHover(this); hide()">
                 <div class="card-header"> <h2 class="text-center">CSE115</h2></div>
                 <div class="card-body"><h5>Programming Language1</h5>
@@ -96,6 +156,8 @@
               </div>
             </div>
 
+
+            
 
             <div class = "col-sm-12 col-md-6 col-lg-4">             
                 <div class="card space" onmouseover="hover(this); show()" onmouseout= "endHover(this); hide()">
@@ -271,7 +333,7 @@
               </div>
 
            
- 
+  -->
   
            
          </div>
