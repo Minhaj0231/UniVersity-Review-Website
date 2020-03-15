@@ -1,55 +1,31 @@
 <?php include 'php/db_connect.php';?>
 <?php
-session_start();
-ob_flush();
-$message="";
- 
-if(isset($_POST['action']))
-{          
-    if($_POST['action']=="Sign up")
-    {
-		extract ($_POST);
-         $email = mysqli_real_escape_string($connection,$_POST['email']);
-		$name = mysqli_real_escape_string($connection,$_POST['name']);
-       
-		$contact = floatval(mysqli_real_escape_string($connection,$_POST['contact']));
-        $password = mysqli_real_escape_string($connection,$_POST['password']);
 
-    echo $email;
-    echo $name;
-    echo $contact;
-		$strSQL1 = mysqli_query($connection,"insert into users (email,name,contact,password) values ('".$email."','".$name."','".$contact."','".($password)."')");
-?>
-		<META HTTP-EQUIV="refresh" CONTENT="1;URL=signin.php">
+  $message = "";
+if(isset($_POST['btnSignUp'])){
 
-<?php 
+  $email = $_POST['email'];
+  $name = $_POST['name'];
+  $contact = $_POST['contact'];
+  $password = $_POST['password'];
 
-		if ($strSQL1)
-		 {
-			
-			 echo "Inserted";
-			 
-			 
-			$strSQL2 = mysqli_query($connection,"select user_id from users where email='".$email."' and password='".($password)."'") ;
-        	$Results = mysqli_fetch_array($strSQL2);
-			//echo $Results['user_id'];
-			 
-			 unset($_POST);
-			 
-			 ?>
-             <META HTTP-EQUIV="refresh" CONTENT="1;URL=signin.php">
-             <?php
-		 
-		 }
-		 if(!$strSQL1)
-		 {
-			  $message = " Input not correct. Please make sure all required fields are filled out correctly";
-		 }
-		
-	}
+  $sql = "INSERT INTO user (email,name,  contact,password, usertype)
+        VALUES ('$email','$name', '$contact','$password', 'regular')";
+
+
+
+if (mysqli_query($conn, $sql)) {
+  $message = "New user created successfully";
+  } else {
+    $message = "Error occured. Try again";
+  }
+
 }
-?>
 
+
+
+
+?>
 
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -98,30 +74,34 @@ if(isset($_POST['action']))
 function check() {
 fn=document.form1.name.value;
 if (fn.length<1) {
+  event.preventDefault();
 alert("Please Enter First Name");
 document.form1.name.focus();
 return false;
 }
 pn=document.form1.contact.value;
 if(pn.length<9) {
+  event.preventDefault();
 alert("Please Enter Contact no");
 document.form1.phone.focus();
 return false;
 }
 pw=document.form1.password.value;
 if(pw.length<6) {
+  event.preventDefault();
 alert("Password must be above 6 chara");
 document.form1.password.focus();
 return false;
 }
 repw=document.form1.repassword.value;
 if(repw != pw) {
+  event.preventDefault();
 alert("Password not matching");
 document.form1.password.focus();
 return false;
 }
 
-return true
+
 }
 </script>
 
@@ -132,7 +112,7 @@ return true
 
 	<div class="login-card">
         	<h1>Sign-IN</h1><br>
-            	<form name="form1"action="" method="post" onsubmit=" check();">
+            	<form name="form1"   method="post" onsubmit="  check();">
 
             <input type="email" name="email" class="form-control input-sm chat-input" placeholder="email" />
             </br>
@@ -166,7 +146,7 @@ return true
 
 
 
-			<input type="submit" name="action" class="login login-signup" value="Sign up">
+			<input type="submit" name="btnSignUp" class="login login-signup" value="Sign up">
              <div class="login-help">
     			<a href="#">Login</a>
   				</div>

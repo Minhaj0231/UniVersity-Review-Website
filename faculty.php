@@ -1,219 +1,364 @@
+
+<?php include 'php/db_connect.php';?>
+
+<?php
+
+
+if(isset($_POST['btndelete'])){
+
+
+    $id =   $_POST['id'];
+
+    $sql = "DELETE FROM faculty WHERE id=$id";
+
+    if (mysqli_query($conn, $sql)) {
+        echo "Record deleted successfully";
+        } else {
+        echo "Error deleting record: " . mysqli_error($conn);
+        }
+}
+
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-	<title>Faculty Page </title>
-  	<meta charset="utf-8">
-  	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta charset="UTF-8">
-  	<meta name="description" content="Faculty Page">
-  	<meta name="keywords" content="Faculty Name ">
-  	<meta name="author" content="faculty Name">
-    
-  	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-  	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  	<link rel="stylesheet" href="css/academicons-1.8.0/css/academicons.css">
-	<link rel="stylesheet" href="css/layout.css">
-
-<style>
-	.students{
-		/*box-shadow: 0px 0px 15px #888888;*/
-		margin-bottom:10px;
-	
-		
-	}
-	
-	.students img{
-		width:20%;
-		
-		}
-	
-	.details{
-		background-color: white;
-		width:79%;
-		float:right;
-		padding-left: 1%;
-		list-style: none;
-		
-		
-	}
-
-</style>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FacultyList</title>
+    <!--Bootstrap CSS-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <!--Custom CSS-->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/programList.css">
+    <!-- Custom JS -->
+    <script src="js/script.js"></script>
+    <script src="js/programList.js"></script>
+    <!-- Load an icon library -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
-		
-<body>
-		<nav class="navbar navbar-inverse navbar-fixed-top">
-			<div class="container-fluid">
-				<div class="navbar-header">
-					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>                        
-					</button>
-					<!--<a class="navbar-brand" href="#">WebSiteName</a>-->
-				</div>
-				<div class="collapse navbar-collapse" id="myNavbar">
-					<ul class="nav navbar-nav">
-						<li><a href="#"><i class="fa fa-home" aria-hidden="true"></i> Uni-Review</a></li>
-						<li><a href="#"><i class="fa fa-graduation-cap" aria-hidden="true"></i> University</a></li>
-						<li><a href="#"><i class="fa fa-book" aria-hidden="true"></i> Publications</a></li>
-						<li class="active"><a href="#"><i class="fa fa-users" aria-hidden="true"></i> Faculty</a></li>
-						<li class="dropdown">
-							<a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="fa fa-database" aria-hidden="true"></i> Resources<span class="caret"></span></a>
-							<ul class="dropdown-menu">
-								<li><a href="#">Ranking</a></li>
-								<li><a href="#">achievements</a></li>
-							</ul>
-						</li>
-						<li><a href="#"><i class="fa fa-lightbulb-o" aria-hidden="true"></i> Contact</a></li>
-					</ul>
 
-				</div>
-			</div>
-		</nav>
+<body >
+
+    <div id="mySidebar" class="sidebar">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <a href="homepage.php"><i class="fa fa-fw fa-home"></i> Home</a>
+        <a href=""><i class="fa fa-fw fa-envelope"></i> Messages</a>
+        <a href=""><i class="fa fa-fw fa-bell"></i> Notifications</a>
+        <a href=""><i class="fa fa-fw fa-cogs"></i> Settings</a>
+    </div>
+
+    <nav class="navbar navbar-expand-md bg-dark navbar-dark">
+
+        <button class="openbtn bg-dark" onclick="openNav()">&#9776; <b style="font-size: 18px;">Menu</b> </button>
+
+        <a class="navbar-brand" style="margin-left:25%;" href="#">
+            <img class="rounded-circle" style="width: 50px;height: 50px" src="images/Uni_Logo.png" alt="Logo"
+                style="width:40px;">
+        </a>
+
+        <a class="navbar-brand" href="#">Uni-Review</a>
+
+        <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+            <form class="example" action="action_page.php">
+                <input type="text" placeholder="Search program" name="search">
+                <button type="submit"><i class="fa fa-search"></i></button>
+            </form>
+        </nav>
+
+        <!-- Links -->
+        <ul class="navbar-nav" style="margin-left:15%;">
+            <li class="nav-item">
+                <a class="nav-link" href="homepage.php"><i class="fa fa-fw fa-home"></i> Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href=><i class="fa fa-fw fa-user-circle"></i> Logout</a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="dropdown01" style="margin-right: 2%"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-fw fa-cogs"></i>
+                    Settings</a>
+                <div class="dropdown-menu" aria-labelledby="dropdown01">
+                    <a class="dropdown-item" href="userprofile.php">Edit Profile</a>
+                    <a class="dropdown-item" href="adminDashboard.php">Admin</a>
+                    <a class="dropdown-item" href="aboutpage.php">About</a>
+                    <a class="dropdown-item" href="#"> Contact Us</a>
+                </div>
+            </li>
+        </ul>
+    </nav>
+
+    <!--Main Body Start-->
+
+    <div class="container p-3 ">
+
+        <div class = "row">
+
+        <?php
+
+            $uni_id=$_GET['uni_id'];
+
+            
+         $sql = "SELECT id,  name, email, research_area, img_src FROM faculty Where university = '$uni_id'";
+         $result = mysqli_query($conn, $sql);
+         while($row = mysqli_fetch_array($result) ){
+
+
+            echo  '            
+            <div class = "col-sm-12 col-md-6 col-lg-4">             
+			<div class="card space" onmouseover="hover(this); show()" onmouseout= "endHover(this); hide()">
+			
+			 <div class="card-header"> <h2 class="text-center">'.$row["name"].'</h2></div>
+			 <img class="card-img-top" src="upload/faculty/ '.$row["img_src"].'" alt="Card image cap">
+			 <div class="card-body"><h5><b>email:</b> '.$row["email"].'</h5>
+			 	<p> <b>research area:</b></p> 
+                 <p> '.$row["research_area"].'.</p>               
+             </div> 
+             <div class="card-footer">
+                
+                
+            <form method="post"   enctype="multipart/form-data">
+                <input type="hidden" name = "id"  value ='.$row["id"].' >
+                <button type="submit" name="btndelete" >Delete</button>
+            </form>
+                 </div>
+                
+             </div>
+           </div>
+        
+            
+            ';
+          }
+         
+       
+        
+        ?>
+
+ 
+            <!-- <div class = "col-sm-12 col-md-6 col-lg-4">             
+               <div class="card space" onmouseover="hover(this); show()" onmouseout= "endHover(this); hide()">
+                <div class="card-header"> <h2 class="text-center">CSE115</h2></div>
+                <div class="card-body"><h5>Programming Language1</h5>
+                    <p>This is programming language intorduction course. concepts of programming is tought in C Language.</p>               
+                </div> 
+                <div class="card-footer">
+                    <li class="list-group-item">
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star-half checked"></span> <a style="margin-left: 10px;" href="#">Rate </a>
+                    </li>
+                    <li class="list-group-item"><a href="#"> Click to view feedbacks -> </a></li>
+                    <div class='admin' style="display: none;" >
+                        <button>Edit</button>
+                        <button>Delete</button>
+                    </div>
+                   
+                </div>
+              </div>
+            </div>
+
+
+            
+
+            <div class = "col-sm-12 col-md-6 col-lg-4">             
+                <div class="card space" onmouseover="hover(this); show()" onmouseout= "endHover(this); hide()">
+                 <div class="card-header"> <h2 class="text-center">CSE115</h2></div>
+                 <div class="card-body"><h5>Programming Language1</h5>
+                     <p>This is programming language intorduction course. concepts of programming is tought in C Language.</p>               
+                 </div> 
+                 <div class="card-footer">
+                     <li class="list-group-item">
+                         <span class="fa fa-star checked"></span>
+                         <span class="fa fa-star checked"></span>
+                         <span class="fa fa-star checked"></span>
+                         <span class="fa fa-star checked"></span>
+                         <span class="fa fa-star-half checked"></span> <a style="margin-left: 10px;" href="#">Rate </a>
+                     </li>
+                     <li class="list-group-item"><a href="#"> Click to view feedbacks -> </a></li>
+                     <div class='admin' style="display: none;" >
+                         <button>Edit</button>
+                         <button>Delete</button>
+                     </div>
+                    
+                 </div>
+               </div>
+             </div>
+
+
+             <div class = "col-sm-12 col-md-6 col-lg-4">             
+                <div class="card space" onmouseover="hover(this); show()" onmouseout= "endHover(this); hide()">
+                 <div class="card-header"> <h2 class="text-center">CSE115</h2></div>
+                 <div class="card-body"><h5>Programming Language1</h5>
+                     <p>This is programming language intorduction course. concepts of programming is tought in C Language.</p>               
+                 </div> 
+                 <div class="card-footer">
+                     <li class="list-group-item">
+                         <span class="fa fa-star checked"></span>
+                         <span class="fa fa-star checked"></span>
+                         <span class="fa fa-star checked"></span>
+                         <span class="fa fa-star checked"></span>
+                         <span class="fa fa-star-half checked"></span> <a style="margin-left: 10px;" href="#">Rate </a>
+                     </li>
+                     <li class="list-group-item"><a href="#"> Click to view feedbacks -> </a></li>
+                     <div class='admin' style="display: none;" >
+                         <button>Edit</button>
+                         <button>Delete</button>
+                     </div>
+                    
+                 </div>
+               </div>
+             </div>
+ 
+ 
+             <div class = "col-sm-12 col-md-6 col-lg-4">             
+                 <div class="card space" onmouseover="hover(this); show()" onmouseout= "endHover(this); hide()">
+                  <div class="card-header"> <h2 class="text-center">CSE115</h2></div>
+                  <div class="card-body"><h5>Programming Language1</h5>
+                      <p>This is programming language intorduction course. concepts of programming is tought in C Language.</p>               
+                  </div> 
+                  <div class="card-footer">
+                      <li class="list-group-item">
+                          <span class="fa fa-star checked"></span>
+                          <span class="fa fa-star checked"></span>
+                          <span class="fa fa-star checked"></span>
+                          <span class="fa fa-star checked"></span>
+                          <span class="fa fa-star-half checked"></span> <a style="margin-left: 10px;" href="#">Rate </a>
+                      </li>
+                      <li class="list-group-item"><a href="#"> Click to view feedbacks -> </a></li>
+                      <div class='admin' style="display: none;" >
+                          <button>Edit</button>
+                          <button>Delete</button>
+                      </div>
+                     
+                  </div>
+                </div>
+              </div>
+
+
+              <div class = "col-sm-12 col-md-6 col-lg-4">             
+                <div class="card space" onmouseover="hover(this); show()" onmouseout= "endHover(this); hide()">
+                 <div class="card-header"> <h2 class="text-center">CSE115</h2></div>
+                 <div class="card-body"><h5>Programming Language1</h5>
+                     <p>This is programming language intorduction course. concepts of programming is tought in C Language.</p>               
+                 </div> 
+                 <div class="card-footer">
+                     <li class="list-group-item">
+                         <span class="fa fa-star checked"></span>
+                         <span class="fa fa-star checked"></span>
+                         <span class="fa fa-star checked"></span>
+                         <span class="fa fa-star checked"></span>
+                         <span class="fa fa-star-half checked"></span> <a style="margin-left: 10px;" href="#">Rate </a>
+                     </li>
+                     <li class="list-group-item"><a href="#"> Click to view feedbacks -> </a></li>
+                     <div class='admin' style="display: none;" >
+                         <button>Edit</button>
+                         <button>Delete</button>
+                     </div>
+                    
+                 </div>
+               </div>
+             </div>
+ 
+ 
+             <div class = "col-sm-12 col-md-6 col-lg-4">             
+                 <div class="card space" onmouseover="hover(this); show()" onmouseout= "endHover(this); hide()">
+                  <div class="card-header"> <h2 class="text-center">CSE115</h2></div>
+                  <div class="card-body"><h5>Programming Language1</h5>
+                      <p>This is programming language intorduction course. concepts of programming is tought in C Language.</p>               
+                  </div> 
+                  <div class="card-footer">
+                      <li class="list-group-item">
+                          <span class="fa fa-star checked"></span>
+                          <span class="fa fa-star checked"></span>
+                          <span class="fa fa-star checked"></span>
+                          <span class="fa fa-star checked"></span>
+                          <span class="fa fa-star-half checked"></span> <a style="margin-left: 10px;" href="#">Rate </a>
+                      </li>
+                      <li class="list-group-item"><a href="#"> Click to view feedbacks -> </a></li>
+                      <div class='admin' style="display: none;" >
+                          <button>Edit</button>
+                          <button>Delete</button>
+                      </div>
+                     
+                  </div>
+                </div>
+              </div>
+
+              <div class = "col-sm-12 col-md-6 col-lg-4">             
+                <div class="card space" onmouseover="hover(this); show()" onmouseout= "endHover(this); hide()">
+                 <div class="card-header"> <h2 class="text-center">CSE115</h2></div>
+                 <div class="card-body"><h5>Programming Language1</h5>
+                     <p>This is programming language intorduction course. concepts of programming is tought in C Language.</p>               
+                 </div> 
+                 <div class="card-footer">
+                     <li class="list-group-item">
+                         <span class="fa fa-star checked"></span>
+                         <span class="fa fa-star checked"></span>
+                         <span class="fa fa-star checked"></span>
+                         <span class="fa fa-star checked"></span>
+                         <span class="fa fa-star-half checked"></span> <a style="margin-left: 10px;" href="#">Rate </a>
+                     </li>
+                     <li class="list-group-item"><a href="#"> Click to view feedbacks -> </a></li>
+                     <div class='admin' style="display: none;" >
+                         <button>Edit</button>
+                         <button>Delete</button>
+                     </div>
+                    
+                 </div>
+               </div>
+             </div>
+ 
+ 
+             <div class = "col-sm-12 col-md-6 col-lg-4">             
+                 <div class="card space" onmouseover="hover(this); show()" onmouseout= "endHover(this); hide()">
+                  <div class="card-header"> <h2 class="text-center">CSE115</h2></div>
+                  <div class="card-body"><h5>Programming Language1</h5>
+                      <p>This is programming language intorduction course. concepts of programming is tought in C Language.</p>               
+                  </div> 
+                  <div class="card-footer">
+                      <li class="list-group-item">
+                          <span class="fa fa-star checked"></span>
+                          <span class="fa fa-star checked"></span>
+                          <span class="fa fa-star checked"></span>
+                          <span class="fa fa-star checked"></span>
+                          <span class="fa fa-star-half checked"></span> <a style="margin-left: 10px;" href="#">Rate </a>
+                      </li>
+                      <li class="list-group-item"><a href="#"> Click to view feedbacks -> </a></li>
+                      <div class='admin' style="display: none;" >
+                          <button>Edit</button>
+                          <button>Delete</button>
+                      </div>
+                     
+                  </div>
+                </div>
+              </div>
+
+           
+  -->
   
-	
-		<div class="container">
-				<!--<img class="img-responsive" src="img_chania.jpg" alt="Chania" width="100%" height="400px">-->
-				 <div class="row info">
-				<div class="col-sm-4" style="background-color:white;">
-						<br />
-						<ul class="info">
-							<li><span class="glyphicon glyphicon glyphicon-user"></span> <b>Name</b></li>
-							<li><i class="fa fa-university" aria-hidden="true"></i><a href="#" target="_blank"><span style="color:black;"> Deptartment Name</span></a>, <a href="#" target="_blank"><span style="color:black;">Institute Name</span></a></li>
-							<li><span class="glyphicon glyphicon-envelope"></span> <a href="#" target="_top"><span style="color:black;">email id</span></a></li>
-							<li ><span class="glyphicon glyphicon-phone-alt"></span> Phone No.</li>
+           
+         </div>
 
-						</ul>
-						<hr style="width:80%;">
-						<ul class="info">
-								<li><a href="#"><i class="fa fa-google" aria-hidden="true"></i></a>&nbsp;&nbsp; <a href="#" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a>&nbsp;&nbsp;<a href="#" target="_blank"><i class="ai ai-google-scholar ai-1x"></i></a>&nbsp;&nbsp;<a href="#" target="_blank"><i class="ai ai-orcid ai-1x"></i></a>&nbsp;&nbsp;<a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a>&nbsp;&nbsp;<a href="#"><i class="fa fa-github" aria-hidden="true"></i></a>&nbsp;&nbsp;<a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a>&nbsp;&nbsp;<a href="#"><i class="ai ai-arxiv ai-1x"></i></a>&nbsp;&nbsp;<a href="#"><i class="ai ai-researchgate ai-1x"></i></a></li>
-						</ul>
-				</div>
-				<div class="col-sm-8" style="background-color:white;padding:0px;;">
-						<img class="img-responsive img-rounded image1" src="images/bg.png" alt="background" width="100%" > 
-						<img class="image2 img-rounded" src="images/img_avatar2.png" alt="Name" >
-				</div>
-			</div>
 
-		
-			<div class="row">
-					<div class="col-sm-12" style="background-color:white;padding:2%;">
-						<h3><i class="fa fa-graduation-cap" aria-hidden="true"></i> Computer Science and Engineering</h3><hr>
-				</div>
-		</div>
-		
-		<div class="row">
-				<div class="col-sm-6 students clearfix">
-					<img class=" img-rounded" src="images/img_avatar2.png" alt="avatar" >
-					<ul class="details">
-						<li><a href="#" target="_blank"><b> Faculty1 </b></a></li>
-						<li> Research Area : </li>
-						<li><i class="fa fa-envelope" aria-hidden="true"></i>email id</li>
-					
-					</ul>
-				</div>
-					<div class="col-sm-6 students clearfix">
-					<img class=" img-rounded" src="images/img_avatar6.png" alt="avatar">
-					<ul class="details">
-						<li><a href="#" target="_blank"><b>Faculty2 </b></a></li>
-						<li> Research Area : </li>
-						<li><i class="fa fa-envelope" aria-hidden="true"></i> email id</li>
-					</ul>
-				</div>
-			
-			
-		</div>
-		
-			<div class="row">
-				<div class="col-sm-6 students clearfix">
-					<img class=" img-rounded" src="images/img_avatar6.png" alt="avatar">
-					<ul class="details">
-						<li><a href="#" target="_blank"><b>faculty 3</b></a></li>
-						<li> Research Area</li>
-						<li><i class="fa fa-envelope" aria-hidden="true"></i> email id</li>
-					</ul>
-				</div>
-				<div class="col-sm-6 students clearfix">
-					<img class=" img-rounded" src="images/img_avatar2.png" alt="avatar">
-					<ul class="details">
-						<li><a href="#" target="_blank"><b>faculty 4</b></a></li>
-						<li> Research Area</li>
-						<li><i class="fa fa-envelope" aria-hidden="true"></i> emai id</li>
-					</ul>
-				</div>
-		</div>
-		
-	
-		
-		<h3> Business Administration </h3><hr>
-			<h4> Marketing</h4>
 
-			<div class="row">
-				<div class="col-sm-6 students clearfix">
-					<img class=" img-rounded" src="images/img_avatar2.png" alt="avatar">
-					<ul class="details">
-						<li><a href="#" target="_blank"><b>faculty 1</b></a></li>
-						<li> Research Area</li>
-						<li><i class="fa fa-envelope" aria-hidden="true"></i>email id</li>
-					</ul>
-				</div>
-				<div class="col-sm-6 students">
-				</div>
-                <div class="col-sm-6 students clearfix">
-                    <img class=" img-rounded" src="images/img_avatar2.png" alt="avatar">
-                    <ul class="details">
-                        <li><a href="#" target="_blank"><b>faculty 1</b></a></li>
-                        <li> Research Area</li>
-                        <li><i class="fa fa-envelope" aria-hidden="true"></i>email id</li>
-                    </ul>
-                </div>
-                <div class="col-sm-6 students">
-                </div>
+    </div>
+    <!--Main Body End-->
 
-		</div>
-		
-            <h4> Finance and accounting</h4>
+    <!--Bootstrap JS,JSQ-->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous">
+    </script>
+</body>
 
-			<div class="row">
-				<div class="col-sm-6 students clearfix">
-					<img class=" img-rounded" src="images/img_avatar2.png" alt="avatar">
-					<ul class="details">
-						<li><a href="#" target="_blank"><b>faculty 1</b></a></li>
-						<li> Research Area</li>
-						<li><i class="fa fa-envelope" aria-hidden="true"></i> email id</li>
-					</ul>
-				</div>
-				<div class="col-sm-6 students clearfix">
-					<img class=" img-rounded" src="images/img_avatar6.png" alt="avatar">
-					<ul class="details">
-						<li><a href="#" target="_blank"><b>Faculty 2</b></a></li>
-						<li> Research Area</li>
-						<li><i class="fa fa-envelope" aria-hidden="true"></i> email id</li>
-					</ul>
-				</div>
-                <div class="col-sm-6 students clearfix">
-                    <img class=" img-rounded" src="images/img_avatar2.png" alt="avatar">
-                    <ul class="details">
-                        <li><a href="#" target="_blank"><b>faculty 3</b></a></li>
-                        <li> Research Area</li>
-                        <li><i class="fa fa-envelope" aria-hidden="true"></i> email id</li>
-                    </ul>
-                </div>
-                <div class="col-sm-6 students clearfix">
-                    <img class=" img-rounded" src="images/img_avatar6.png" alt="avatar">
-                    <ul class="details">
-                        <li><a href="#" target="_blank"><b>faculty 4</b></a></li>
-                        <li> Research Area</li>
-                        <li><i class="fa fa-envelope" aria-hidden="true"></i> email id</li>
-                    </ul>
-                </div>
-		</div>
-
-	</div>
-	<div class="footer"><p>Tasnim Tabassum Anne</p> </div>
-	</body>
-	
 </html>

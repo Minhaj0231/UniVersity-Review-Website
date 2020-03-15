@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.5
+-- version 5.0.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 12, 2020 at 04:31 PM
--- Server version: 10.1.38-MariaDB
--- PHP Version: 7.3.2
+-- Generation Time: Mar 15, 2020 at 11:53 AM
+-- Server version: 10.4.11-MariaDB
+-- PHP Version: 7.2.28
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -127,10 +127,15 @@ CREATE TABLE `university` (
 --
 
 INSERT INTO `university` (`id`, `name`, `location`, `rating`, `img_src`, `short_descr`, `Contact`) VALUES
-(13, 'North South University', 'bashundhara', 0, 'North_South_University.png', 'dfsdfadsklfnsda;k lkflkdsjflsdjfsldkjf jgdklsfjlkdsjfldkjf jsdkfjsdlkfjsdlkfjdf fjsdkfjsdlfjsdlkfj', '12345678910'),
-(14, 'AIUB', 'bashundhara', 0, 'AIUB.jpg', 'qwertyuiopoiuytrewqwertyuiop[poiuyasdfghjklkjhgfdsasdfghjzxcvbnm,mnbvcxzxcvbnbvcd', '12345679'),
-(15, 'Independent University', 'bashundhara', 0, 'Independent_University.jpg', 'this is testthis is testthis is testthis is testthis is testthis is testthis is testthis is testthis is testthis is testthis is testthis is testthis is testthis is testthis is testthis is testthis is testthis is testthis is testthis is testthis is testthi', '12345678909'),
-(16, 'uttara university', 'uttara', 0, 'uttara_university.jpg', 'asdasdasdasdasdasdasd  asdasdasdasdasdasdasdasdasdasdasd      asdasdasdasdasdasdasdasd   asdasdasdasdasdasdasdasd   asdasdasdasdasdasdasd     asdasdasdasdasdasdasdasd     asdasdasdasdasdasdasd    asdasdasdasdasdasd', '9876544567');
+(1, 'North South University', 'Dhaka', 5, 'university_image.jpg', 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx', '299999'),
+(2, 'East West University', 'Dhaka', 5, 'university_image.jpg', 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx', '299999'),
+(3, 'Z University', 'Dhaka', 5, 'university_image.jpg', 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx', '299999'),
+(4, 'Y University', 'Dhaka', 5, 'university_image.jpg', 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx', '299999'),
+(5, 'X University', 'Dhaka', 5, 'university_image.jpg', 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx', '299999'),
+(6, 'Khulna University', 'Dhaka', 5, 'university_image.jpg', 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx', '299999'),
+(7, 'Notun University', 'Dhaka', 4, 'university_image.jpg', 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx', '299999'),
+(8, 'Bogura University', 'Dhaka', 4, 'university_image.jpg', 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx', '299999'),
+(9, 'Best University', 'Dhaka', 4, 'university_image.jpg', 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx', '299999');
 
 -- --------------------------------------------------------
 
@@ -139,11 +144,30 @@ INSERT INTO `university` (`id`, `name`, `location`, `rating`, `img_src`, `short_
 --
 
 CREATE TABLE `university_comment` (
-  `comment_id` int(11) NOT NULL,
-  `comment` varchar(255) NOT NULL,
-  `university` varchar(255) NOT NULL,
-  `user_email` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `id` int(11) NOT NULL,
+  `name` varchar(50) NOT NULL,
+  `university` varchar(100) NOT NULL,
+  `comment` text NOT NULL,
+  `cur_date` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `university_comment`
+--
+
+INSERT INTO `university_comment` (`id`, `name`, `university`, `comment`, `cur_date`) VALUES
+(31, 'Tanvir', 'Notun University', '33333', '2020-03-15'),
+(32, 'Tanvir', 'Notun University', '5555', '2020-03-15'),
+(33, 'Tanvir', 'Notun University', '5555', '2020-03-15'),
+(34, 'Tanvir', 'Notun University', '333', '2020-03-15'),
+(35, 'Tanvir', 'Notun University', 'asfdasdfasdfasdfasd', '2020-03-15'),
+(36, 'Tanvir', 'Notun University', 'asfdasdfasdfasdfasd', '2020-03-15'),
+(37, 'Tanvir', 'Notun University', 'asfdasdfasdfasdfasd', '2020-03-15'),
+(38, 'Tanvir', 'Notun University', 'asfdasdfasdfasdfasd', '2020-03-15'),
+(39, 'Tanvir', 'Notun University', 'asfdasdfasdfasdfasd', '2020-03-15'),
+(40, 'Tanvir', 'Notun University', 'asfdasdfasdfasdfasd', '2020-03-15'),
+(41, 'Tanvir', 'Notun University', 'asfdasdfasdfasdfasd', '2020-03-15'),
+(42, 'Tanvir', 'Notun University', 'asfdasdfasdfasdfasd', '2020-03-15');
 
 -- --------------------------------------------------------
 
@@ -155,15 +179,17 @@ CREATE TABLE `user` (
   `email` varchar(60) NOT NULL,
   `name` varchar(80) NOT NULL,
   `contact` varchar(20) NOT NULL,
-  `password` varchar(30) NOT NULL
+  `password` varchar(30) NOT NULL,
+  `usertype` varchar(10) DEFAULT 'regular'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`email`, `name`, `contact`, `password`) VALUES
-('tanvir@gmail.com', 'tanvir', '01754101392', '123456');
+INSERT INTO `user` (`email`, `name`, `contact`, `password`, `usertype`) VALUES
+('arif@gmail', 'Arif', '01777399083', '123456', 'regular'),
+('tanvir@gmail.com', 'Tanvir', '01754101392', '123456', 'admin');
 
 --
 -- Indexes for dumped tables
@@ -214,9 +240,7 @@ ALTER TABLE `university`
 -- Indexes for table `university_comment`
 --
 ALTER TABLE `university_comment`
-  ADD PRIMARY KEY (`comment_id`),
-  ADD KEY `university_name` (`university`,`user_email`),
-  ADD KEY `user_email` (`user_email`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `user`
@@ -256,17 +280,13 @@ ALTER TABLE `program`
 -- AUTO_INCREMENT for table `university`
 --
 ALTER TABLE `university`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
--- Constraints for dumped tables
---
-
---
--- Constraints for table `university_comment`
+-- AUTO_INCREMENT for table `university_comment`
 --
 ALTER TABLE `university_comment`
-  ADD CONSTRAINT `university_comment_ibfk_2` FOREIGN KEY (`user_email`) REFERENCES `user` (`email`) ON DELETE CASCADE ON UPDATE CASCADE;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
